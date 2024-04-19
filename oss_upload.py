@@ -10,12 +10,12 @@
 =========================================================   
 """
 import oss2
-
+import os
 
 def upload_picture(bucket, object_key, file_path):
     try:
-        bucket.put_object_from_file(object_key, file_path)
-        print(f"File {file_path} uploaded successfully.")
+        reuslt = bucket.put_object_from_file(object_key, file_path)
+        print(f"图片地址:{reuslt.resp.response.url}")
     except oss2.exceptions.RequestError as e:
         print(f"Error: {e}")
     except Exception as e:
@@ -31,7 +31,8 @@ auth = oss2.Auth('LTAI5tD5h2zjqy8KbuUq9h15', '1eDoL4LvssL18cBQra1gycUOJtyK4u')
 bucket1 = oss2.Bucket(auth, 'oss-cn-shanghai.aliyuncs.com', 'bucket-cyn')
 
 # 上传图片
-
-
+file_path = r"C:\Users\Administrator\Desktop\【重磅纯棉】棕榈绿1(呆头鸭左下标).jpg"
+file_name = os.path.basename(file_path)
+store_path = 'photo_folder/' + file_name
 # 使用示例
-upload_picture(bucket1, 'photo_folder/text.jpg', r"C:\Users\kim\Pictures\ios共享\IMG_20221125_073624.JPG")
+upload_picture(bucket1, store_path, file_path)
